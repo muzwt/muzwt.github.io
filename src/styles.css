@@ -1,0 +1,157 @@
+:root {
+    --color: #fff;
+    --shadow-col: rgba(0, 0, 0, 0.5);
+    --border-col: rgba(255, 255, 255, 0.1);
+    --hg-col: #fff;
+    --hvr-bg: rgba(255,255,255,0.1);
+    --text-glow: rgba(255,255,255,0.5);
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.bio-background {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.bio-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* CONTAINER */
+.container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+}
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+/* bio-profile container */
+.bio-profile {   
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1rem;
+    max-width: 1000px;
+    box-shadow: 0 0 25px var(--shadow-col);
+    border: 1px solid var(--border-col);
+    transition: 0.3s ease;
+}
+.bio-profile:hover {
+    transform: scale(1.02);
+    border: 1px solid var(--hg-col);
+}
+/* bio head elements */
+.bio-head {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.bio-icon {
+    border-radius: 50%;
+    height: 128px;
+    border: 2px solid var(--border-col);
+    transition: 0.3s ease;
+}
+.bio-icon:hover {
+    border: 2px solid var(--color);
+}
+.bio-info {
+    color: var(--color);
+}
+.bio-info h1 {
+    font-family: "Playpen Sans";
+    text-shadow: 0 0 12px var(--text-glow);
+}
+.bio-info p {
+    font-family: "Playwrite NZ Basic";
+    font-weight: 550;
+    max-width: 700px;
+    white-space: pre-wrap;
+}
+/* bio buttons */
+.bio-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.bio-buttons .left {
+    display: flex;
+    gap: 10px;
+}
+.bio-buttons .right {
+    display: flex;
+    gap: 10px;
+}
+.bio-buttons button {
+    height: 40px;
+    padding: 0 1rem 0 1rem;
+    color: var(--color);
+    font-family: "Playwrite NZ Basic";
+    background-color: transparent;
+    border: 1px solid var(--border-col);
+    box-shadow: 0 0 25px var(--shadow-col);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: 0.3s ease;
+    background: var(--bg);
+}
+.bio-buttons button:hover {
+    transform: scale(1.1);
+    border: 1px solid var(--hg-col);
+    background: var(--hvr-bg);
+}
+@keyframes clickAnim {
+    0% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+/* OVERLAY */
+.overlay {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.overlay p {
+    color: var(--color);
+    font-family: "Playwrite NZ Basic";
+    font-size: 25px;
+    text-shadow: 0 0 12px var(--text-glow);
+    transition: 0.5s ease;
+}
+.overlay p:hover {
+    transform: scale(1.1) rotate(1deg);
+}
+@keyframes hideOverlay {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        backdrop-filter: none;
+        opacity: 0;
+    }
+}
