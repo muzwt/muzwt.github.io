@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>muzwt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&family=Playwrite+NZ+Basic:wght@100..400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color: #fff;
+            --shadow-col: rgba(0, 0, 0, 0.5);
+            --border-col: rgba(255, 255, 255, 0.1);
+            --hg-col: #fff;
+            --hvr-bg: rgba(255,255,255,0.1);
+            --text-glow: rgba(255,255,255,0.5);
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .bio-background {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #0d0d0d 100%);
+        }
+        .bio-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px;
+        }
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .bio-profile {
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem;
+            max-width: 1000px;
+            box-shadow: 0 0 25px var(--shadow-col);
+            border: 1px solid var(--border-col);
+            transition: 0.3s ease;
+        }
+        .bio-profile:hover {
+            transform: scale(1.02);
+            border: 1px solid var(--hg-col);
+        }
+        .bio-head {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+        }
+        .bio-icon {
+            border-radius: 50%;
+            height: 128px;
+            width: 128px;
+            object-fit: cover;
+            border: 2px solid var(--border-col);
+            transition: 0.3s ease;
+        }
+        .bio-icon:hover {
+            border: 2px solid var(--color);
+        }
+        .bio-info {
+            color: var(--color);
+        }
+        .bio-info h1 {
+            font-family: "Playpen Sans";
+            text-shadow: 0 0 12px var(--text-glow);
+        }
+        .bio-info p {
+            font-family: "Playwrite NZ Basic";
+            font-weight: 550;
+            max-width: 700px;
+            white-space: pre-wrap;
+        }
+        .bio-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bio-buttons .left {
+            display: flex;
+            gap: 10px;
+        }
+        .bio-buttons .right {
+            display: flex;
+            gap: 10px;
+        }
+        .bio-buttons button {
+            height: 40px;
+            padding: 0 1rem;
+            color: var(--color);
+            font-family: "Playwrite NZ Basic";
+            background-color: transparent;
+            border: 1px solid var(--border-col);
+            box-shadow: 0 0 25px var(--shadow-col);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        .bio-buttons button:hover {
+            transform: scale(1.1);
+            border: 1px solid var(--hg-col);
+            background: var(--hvr-bg);
+        }
+        @keyframes clickAnim {
+            0%   { transform: scale(1.1); }
+            50%  { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        .overlay {
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .overlay p {
+            color: var(--color);
+            font-family: "Playwrite NZ Basic";
+            font-size: 25px;
+            text-shadow: 0 0 12px var(--text-glow);
+            transition: 0.5s ease;
+        }
+        .overlay p:hover {
+            transform: scale(1.1) rotate(1deg);
+        }
+        @keyframes hideOverlay {
+            0%   { opacity: 1; }
+            100% { backdrop-filter: none; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bio-background">
+        <video id="videoBG" loop muted>
+            <source src="bg.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div id="container" class="container">
+        <div id="profile-container" class="profile-container">
+            <div class="bio-profile">
+                <div class="bio-head">
+                    <img class="bio-icon" src="pfp.jpg" onerror="this.style.background='rgba(255,255,255,0.1)';this.removeAttribute('src')">
+                    <div class="bio-info">
+                        <h1>muzwt</h1>
+                        <p id="description"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bio-buttons">
+                <div class="left">
+                    <button onclick="openLink('tg')">Telegram</button>
+                    <button onclick="openLink('gh')">GitHub</button>
+                </div>
+                <div class="right">
+                    <button onclick="openLink('donate')">Donate 🙏</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div onclick="start()" id="overlay" class="overlay">
+        <p id="overlayText"></p>
+    </div>
+
+    <script>
+        // ── EDIT THESE ──────────────────────────────
+        const bio = "your bio here";
+        const links = {
+            tg:     "https://t.me/YOUR_TELEGRAM",
+            gh:     "https://github.com/YOUR_GITHUB",
+            donate: "",
+        };
+        // ────────────────────────────────────────────
+
+        var videoBG     = document.getElementById("videoBG");
+        var overlay     = document.getElementById("overlay");
+        var description = document.getElementById("description");
+        var overlayText = document.getElementById("overlayText");
+
+        description.textContent = "";
+        overlayText.textContent = "";
+
+        function typeAnimation(texto, element, delay) {
+            let i = 0;
+            element.textContent = "";
+            function step() {
+                if (i < texto.length) {
+                    element.textContent += texto.charAt(i);
+                    i++;
+                    setTimeout(step, delay);
+                }
+            }
+            step();
+        }
+
+        function start() {
+            videoBG.play();
+            overlay.style.animation = "hideOverlay 0.5s ease forwards";
+            addEventListener("animationend", () => {
+                overlay.style.pointerEvents = "none";
+                overlay.remove();
+                typeAnimation(bio, description, 10);
+            }, { once: true });
+        }
+
+        function openLink(target) {
+            const btn = event.currentTarget;
+            btn.style.animation = "none";
+            void btn.offsetWidth;
+            btn.style.animation = "clickAnim 0.3s ease";
+            const link = links[target] || "";
+            if (link) setTimeout(() => window.open(link, "_blank"), 310);
+        }
+
+        typeAnimation("Click to proceed", overlayText, 40);
+    </script>
+</body>
+</html>
